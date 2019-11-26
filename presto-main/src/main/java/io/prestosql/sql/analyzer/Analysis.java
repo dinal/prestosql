@@ -829,6 +829,32 @@ public class Analysis
     }
 
     @Immutable
+    public static final class SelectExpression
+    {
+        // expression refers to a select item, either to be returned directly, or unfolded by all-fields reference
+        // unfoldedExpressions applies to the latter case, and is a list of subscript expressions
+        // referencing each field of the row.
+        private final Expression expression;
+        private final Optional<List<Expression>> unfoldedExpressions;
+
+        public SelectExpression(Expression expression, Optional<List<Expression>> unfoldedExpressions)
+        {
+            this.expression = requireNonNull(expression, "expression is null");
+            this.unfoldedExpressions = requireNonNull(unfoldedExpressions);
+        }
+
+        public Expression getExpression()
+        {
+            return expression;
+        }
+
+        public Optional<List<Expression>> getUnfoldedExpressions()
+        {
+            return unfoldedExpressions;
+        }
+    }
+
+    @Immutable
     public static final class Create
     {
         private final Optional<QualifiedObjectName> destination;
